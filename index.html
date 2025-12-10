@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Registration Validation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* GLOBAL RESET */
+        * { box-sizing: border-box; }
+
+        /* BASE STYLES */
+        body {
+            width: 100%;
+            height: 100vh; /* Force full height */
+            margin: 0;
+            background: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%); 
+            font-family: 'Noto Sans Ethiopic', Tahoma, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Centers card vertically */
+            padding: 10px;
+            overflow: hidden; /* Prevents body scroll */
+        }
+
+        /* CARD CONTAINER */
+        .card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 500px; /* Slightly tighter width */
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-top: 6px solid #ffbf00;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 95vh; /* Never exceed screen height */
+            overflow-y: auto; /* Allow scroll inside card if absolutely necessary */
+        }
+
+        /* TYPOGRAPHY - Compacted */
+        h1 {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin: 5px 0 10px 0;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: #333;
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        h3 {
+            color: #555;
+            margin: 0 0 10px 0;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        /* Instruction Text */
+        #introText {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px 0;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1rem;
+        }
+
+        /* INPUT FIELD */
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            font-family: 'Noto Sans Ethiopic', sans-serif;
+            -webkit-appearance: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ffbf00;
+        }
+
+        /* BUTTON */
+        button {
+            background-color: #0056b3;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Noto Sans Ethiopic', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover { background-color: #004494; }
+
+        /* RESULT BOX */
+        #displayResult {
+            margin-top: 15px;
+            text-align: left;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            display: none; /* Hidden by default */
+        }
+
+        /* ERROR STATE STYLING */
+        .error-message {
+            background-color: #fff8f8;
+            border: 1px solid #ffcccc;
+            border-left: 4px solid #d32f2f;
+            color: #333;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .ethiopian-cross {
+            width: 50px;
+            height: 50px;
+            fill: #ffbf00;
+            margin: 0 auto 5px auto;
+            transition: all 0.3s ease;
+        }
+
+        hr.divider {
+            border: 0;
+            border-top: 1px solid #ffcccc;
+            margin: 10px 0;
+        }
+
+        /* Helper to hide elements when error shows */
+        .hidden-on-error {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+  
+    <div class="card">
+        <!-- Wrappers allow us to hide these specific elements easily via JS -->
+        <div id="visualHeader" class="hidden-on-error">
+            <svg class="ethiopian-cross" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 20 L70 50 L50 80 L30 50 Z" fill="none" stroke="#ffbf00" stroke-width="3" />
+                <rect x="46" y="5" width="8" height="90" rx="2" fill="#d4af37" />
+                <rect x="10" y="46" width="80" height="8" rx="2" fill="#d4af37" />
+                <rect x="42" y="0" width="16" height="16" transform="rotate(45 50 8)" fill="#d4af37" />
+                <rect x="42" y="84" width="16" height="16" transform="rotate(45 50 92)" fill="#d4af37" />
+                <rect x="0" y="42" width="16" height="16" transform="rotate(45 8 50)" fill="#d4af37" />
+                <rect x="84" y="42" width="16" height="16" transform="rotate(45 92 50)" fill="#d4af37" />
+                <circle cx="50" cy="50" r="12" fill="#ffffff" stroke="#d4af37" stroke-width="4"/>
+            </svg>
+        </div>
+
+        <h1>ርዕሰ አድባራት ደብረ ሰላም ቅድስት ማርያም<br>የኢትዮጵያ ኦርቶዶክስ ተዋህዶ ቤተክርስቲያን</h1>
+        
+        <h2>የአባላት ማረጋገጫ</h2>
+        <h3>Member Verification</h3>
+        
+        <p id="introText" class="hidden-on-error">
+            እባክዎ ለመቀጠል የቤተክርስቲያን መታወቂያ ቁጥርዎን ያስገቡ።<br>
+        </p>
+
+        <!-- Form -->
+        <form onsubmit="fn_Verifymember(event)">
+            <label for="MemberToCheck">
+                የመታወቂያ ቁጥር / Membership ID <span style="color: red;">*</span>
+            </label>
+            
+            <input type="text" id="MemberToCheck" name="MemberToCheck" placeholder="A12345" required onclick="resetView()"> 
+            
+            <button type="submit">አረጋግጥ / Verify</button>
+        </form>
+
+        <div id="displayResult"></div>
+    </div>
+
+<script>
+    let rawMembers = [
+      'A01491', 'A01025', 'A01430', 'A01255', 'A01544', 'A01417', 'A01187', 'A01403', 'A01409', 'A01210',
+      'A01482', 'A01115', 'E01306', 'E01471', 'D01240', 'A01526', 'B01238', 'A01214', 'A01538', 'A01014', 
+      'A01492', 'A01387', 'A01324', 'A01524', 'B01103', 'B01197', 'B01297', 'B01193', 'B01241', 'B01290', 
+      'B01044', 'B01219', 'B01293', 'B01158', 'B01162', 'B01081', 'C01438', 'C01035', 'B01288', 'B01287', 
+      'B01160', 'C01419', 'C01406', 'C01363', 'C01408', 'C01318', 'C01130', 'C01425', 'C01428', 'C01144', 
+      'B01170', 'C01387', 'C01074', 'C01159', 'C01357', 'D01423', 'D01206', 'D01201', 'D01148', 'D01134', 
+      'D01228', 'D01193', 'D01095', 'D01122', 'D01223', 'A01516', 'D01099', 'E01446', 'E01390', 'E01188',
+      'E01040', 'E01319', 'E01049', 'E01279', 'E01417', 'E01079', 'E01204', 'E01099', 'E01467', 'E01437',
+      'E01468', 'E01421', 'E01442', 'E01138', 'A01437', 'A01485', 'B01242', 'B01030', 'B01251', 'B01281',
+      'C01271', 'C01298', 'C01167', 'C01256', 'C01426', 'C01201', 'C01303', 'C01316', 'C01114', 'D01042',
+      'E01003', 'E01443', 'E01470', 'E01432', 'E01451', 'A01193', 'B01042', 'D01018', 'E01030', 'E01302',
+      'A01514', 'B01089', 'D01187', 'B01019', 'A01066', 'A01494', 'A01238', 'B01220', 'B01283', 'C01285',
+      'C01395', 'B01298', 'E01496', 'A01440', 'E01182', 'D01233', 'D01183', 'D01204', 'E01199', 'E01441',
+      'E01298', 'E01115', 'B01161', 'B01257', 'C01309', 'C01014', 'A01539', 'C01335', 'C01347', 'C01288',
+      'D01011', 'D01213', 'D01225', 'D01161', 'E01509', 'D01216', 'D01221', 'B01285', 'D01141', 'D01182',
+      'D01217', 'E01050', 'E01065', 'E01479', 'E01490', 'E01456', 'E01414', 'A01179', 'A01455', 'A01486',
+      'A01512', 'A01298', 'E01486', 'A01475', 'A01443', 'A01108', 'A01510', 'A01515', 'A01235', 'A01168',
+      'B01147', 'B01171', 'B01282', 'B01278', 'B01066', 'C01429', 'C01412', 'C01410', 'C01342', 'B01193',
+      'D01006', 'C01337', 'C01348', 'D01235', 'D01191', 'E01377', 'E01449', 'E01455', 'E01483', 'E01368',
+      'A01474', 'A01114', 'A01542', 'A01509', 'B01268', 'A01129', 'B01106', 'B01216', 'B01263', 'B01284',
+      'B01234', 'C01032', 'C01224', 'C01427', 'D01145', 'D01231', 'D01055', 'D01057', 'B01211', 'D01181',
+      'D01222', 'E01448', 'E01182', 'E01030', 'E01323', 'D01110', 'E01358', 'E01382', 'E01112', 'E01426',
+      'E01342', 'A01452', 'B01256', 'C01320', 'D01239', 'E01414', 'C01324', 'A01524', 'E01356', 'E01469',
+      'A01272', 'A01449', 'A01477', 'B01221', 'C01168', 'C01332', 'C01376', 'C01390', 'C01411', 'E01389',
+      'E01397', 'A01164', 'A01375', 'B01115', 'B01294', 'C01050', 'C01409', 'A01059', 'A01076', 'A01204',
+      'B01195', 'B01248', 'B01270', 'C01186', 'C01346', 'C01359', 'E01452', 'A01129', 'A01445', 'A01467',
+      'A01516', 'A01548', 'A01553', 'A01568', 'B01301', 'C01381', 'E01026', 'E01410', 'E01465', 'E01508',
+      'A01534', 'A01574', 'A01575', 'A01578', 'C01432', 'C01434', 'C01440', 'D01215', 'B01314', 'A01340',
+      'A01580', 'E01509', 'A01114', 'A01159', 'A01274', 'A01317', 'A01343', 'A01431', 'A01489', 'A01496',
+      'A01547', 'A01555', 'B01073', 'B01081', 'B01308', 'B01312', 'C01039', 'C01090', 'C01284', 'C01353',
+      'C01364', 'C01364', 'C01395', 'C01442', 'D01020', 'E01032', 'E01044', 'E01084', 'E01188', 'E01199',
+      'E01245', 'E01414', 'E01506', 'E01511', 'A01114', 'A01159', 'A01225', 'A01274', 'A01317', 'A01340',
+      'A01343', 'A01431', 'A01489', 'A01496', 'A01534', 'A01547', 'A01555', 'A01574', 'A01575', 'A01578',
+      'B01073', 'B01081', 'B01308', 'B01313', 'C01039', 'C01090', 'C01284', 'C01353', 'C01364', 'C01395',
+      'C01432', 'C01434', 'C01438', 'C01439', 'C01440', 'C01442', 'C01443', 'D01020', 'D01215', 'E01032',
+      'E01044', 'E01084', 'E01188', 'E01245', 'E01304', 'E01414', 'E01506', 'E01511', 'E01513', 'A01215'
+    ];
+    
+    let MembersReadyForProcessing = [...new Set(rawMembers)];
+
+    function fn_Verifymember(event) {
+        event.preventDefault(); 
+        
+        // 1. Force keyboard to close on mobile
+        document.activeElement.blur(); 
+
+        let MembershipID = document.getElementById('MemberToCheck').value.trim();
+        let displayResultElement = document.getElementById('displayResult');
+        let visualHeader = document.getElementById('visualHeader');
+        let introText = document.getElementById('introText');
+        
+        // Reset Logic
+        displayResultElement.innerHTML = '';
+        displayResultElement.style.display = 'none';
+
+        if (MembersReadyForProcessing.includes(MembershipID.toUpperCase())) {
+            // Success
+            window.location.href = 'https://forms.office.com/r/vvhMe1QD6v';
+        } else {
+            // Failure
+            // HIDE the logo and intro text to make room (No Scrolling!)
+            visualHeader.style.display = 'none';
+            introText.style.display = 'none';
+
+            // SHOW the error
+            displayResultElement.style.display = 'block';
+            displayResultElement.className = 'error-message';
+            displayResultElement.innerHTML = `
+            <strong>መደበኛ የአባልነት ክፍያዎ ሙሉ በሙሉ አልተከፈለም፣ ወይም ያቀረቡት የአባልነት መታወቂያ ልክ ያልሆነ ነው።</strong><br><br>
+            
+            <hr class="divider">
+            <strong>Either your regular membership fee hasn't been paid in full, or the Membership ID you provided is invalid.</strong><br><br>
+            `;
+        }
+    }
+
+    // Function to bring back the logo/text if user clicks the input to try again
+    function resetView() {
+        document.getElementById('visualHeader').style.display = 'block';
+        document.getElementById('introText').style.display = 'block';
+        document.getElementById('displayResult').style.display = 'none';
+    }
+</script>
+</body>
+</html>
