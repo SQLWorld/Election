@@ -175,7 +175,7 @@
 
         <h1>ርዕሰ አድባራት ደብረ ሰላም ቅድስት ማርያም<br>የኢትዮጵያ ኦርቶዶክስ ተዋህዶ ቤተክርስቲያን</h1>
         
-        <h2>የአባላት ማረጋገጫ</h2>
+        <h2>የአባላት ማረጋገጫ - የምርጫ ፎርም(ቅጽ)</h2>
         <h3>Member Verification</h3>
         
         <p id="introText" class="hidden-on-error">
@@ -255,7 +255,7 @@
 
         if (MembersReadyForProcessing.includes(MembershipID.toUpperCase())) {
             // Success
-            window.location.href = 'https://forms.office.com/r/vvhMe1QD6v';
+            window.location.href = 'https://forms.cloud.microsoft/r/mfaqYhGGfc?origin=lprLink';
         } else {
             // Failure
             // HIDE the logo and intro text to make room (No Scrolling!)
@@ -266,7 +266,7 @@
             displayResultElement.style.display = 'block';
             displayResultElement.className = 'error-message';
             displayResultElement.innerHTML = `
-            <strong>መደበኛ የአባልነት ክፍያዎ ሙሉ በሙሉ አልተከፈለም፣ ወይም ያቀረቡት የአባልነት መታወቂያ ልክ ያልሆነ ነው።</strong><br><br>
+            <strong>መደበኛ የአባልነት ክፍያዎ ሙሉ በሙሉ አልተከፈለም፣ ወይም ያቀረቡት የአባልነት መታወቂያ ልክ ሰላልሆነ ሂሳብ ክፍል ያነጋገሩ።</strong><br><br>
             
             <hr class="divider">
             <strong>Either your regular membership fee hasn't been paid in full, or the Membership ID you provided is invalid.</strong><br><br>
@@ -284,4 +284,5 @@
 </body>
 
 </html>
+
 
